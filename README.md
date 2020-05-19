@@ -10,3 +10,5 @@
 ### Markergenefctable.R
 With the FindAllMarkers function in Seurat package, we can get a large data frame with lots of marker genes. We may just want to check some specific marker genes with clear biological meanings in this dataset for the purpose of indentifying clusters.
 This is a R function for generating a data frame with the logfc values of only the genes of interest from the output marker gene file of  FindAllMarkers @Seurat package.
+### BioRadPCRToTable.R
+Biorad qPCR instrument generates a table with all the samples in one row. This table with 96 well or 384 well plate layout looks clearer for further data analysis. 
