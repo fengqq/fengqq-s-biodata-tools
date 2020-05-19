@@ -1,19 +1,19 @@
 
-# Function name: makergenefctable
+# Function name: markergenefctable
 # Version: 1.0
-# Developer: Qiang Feng
-# Description: R function for generating a data frame with the fc value of the genes of interest from the FindAllMarkers function of seurat package
-# Input: two csv files: makergenelist.csv from FindAllMarkers & markers.csv with gene of interested
+# Developer: fengqq
+# Description: This is a R function for generating a data frame with the logfc values of only the genes of interest from the output marker gene file of  FindAllMarkers @Seurat package.
+# Input: two csv files: markergenelist.csv from FindAllMarkers & markers.csv with gene of interested
 # Output: one dataframe with the fc value of gene of interest from different clusters
 
 #User guide:
  # Input two csv files
-  #File1 = markergenefc 
+  #File1 = markergenefc.csv
   #example:
   #p_val	avg_logFC	pct.1	pct.2	p_val_adj	cluster	gene
   #0	1.40639125	0.678	0.167	0	0	Igfbp4
 
-  #File2 = makergenelist
+  #File2 = markergenelist.csv
   #example:
   #Naive	Tcm	Tem-cd8	Tem-cd4	activation/Co-stimulatory	Cytokine and effector	Exhasusted/inhibitory	Metabolism	Th1	Treg	Th2
   #Ccr9	Ccr7	Il7r	Itgb1	Cd28	Ccl3	Entpd1	Gapdh	Ifngr1	Foxp3	Il4
