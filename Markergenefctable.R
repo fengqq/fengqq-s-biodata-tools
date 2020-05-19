@@ -26,26 +26,36 @@
 
 markergenefctable <- function(markergenefc, markergenelist){
   options(stringsAsFactors = F)
+  #Read the fc data
   markergene <- read.csv(markergenefc, header = T)
+  #Only keep cols of logfc cluster and gene
   markergene <- markerfc <- markergene[, c('avg_logFC', 'cluster', 'gene')]
+  #Read the gene of interest data
   genelist <- read.csv(markergenelist, header = T)
+  # Get the number of clusters 
+  ncluster <- nrow(table(markerfc$cluster))-1
+  
   
   for(i in (1:ncol(genelist))){
-    assign(paste(names(genelist)[i],"list",sep="_"), genelist[,i][nchar(genelist[ ,i])>0])
+    #Generate a list of marker gene for each class of gene
+	assign(paste(names(genelist)[i],"list",sep="_"), genelist[,i][nchar(genelist[ ,i])>0])
     len = length(get(paste(names(genelist)[i],"list",sep="_")))
+	#Transform the list to data frame
     assign(
       paste(names(genelist)[i],"data",sep="_"), 
       data.frame('ID'= (1:len),'gene' = get(paste(names(genelist)[i],"list",sep="_")))
     )
     ls <- get(paste(names(genelist)[i],"list",sep="_"))
     da <- get(paste(names(genelist)[i],"data",sep="_"))
+	#Assign the classification name to each list
     da$ID = names(genelist)[i]
     
-    for (j in (0:23)){
+    for (j in (0:ncluster)){
+	#Find the marker gene in each cluster and attach the gene fc to the gene list data frame
       markerfc <- markergene[markergene$gene %in% ls & markergene$cluster == j, ][ , c(1, 3)]
       da <- merge(da, markerfc, by = "gene", all = T)
       names(da)[j+3] <- paste('cluster', j , sep = '')
-      
+      #build a data from for each class of list with the fc information
       assign(
         paste(names(genelist)[i],"data",sep="_"), 
         da
@@ -53,17 +63,19 @@ markergenefctable <- function(markergenefc, markergenelist){
     }
   }
   
+  #merge all the data frame into one data frame
   
   total = get(paste(names(genelist)[1],"data",sep="_"))
-  
   
   for (k in (2:ncol(genelist))) {
     df <- get(paste(names(genelist)[k],"data",sep="_"))
     total<-rbind(total,df)
   }
-  
+ #Change the na value to 0
   total[is.na(total)] <- 0
   return(total)
 }
+
+# sample code
 
 markergenefc <- markergenefctable("filename1.csv", "filename2.csv")

@@ -9,19 +9,23 @@
 
 BioRadPCRToTable <- function(file){
   options(stringsAsFactors = F)
-  
+  #Read file and get the information about 96 well plate or 384 well plate.
   a <- read.csv(file)
   n <- nrow(a)
   
   if (n == 96){
+  #make the matrix for gatthering data.
   dataf <- matrix(1:96, c(12, 8))
+  #paste the data to right locations
   for (i in 1:8) {
     dataf[, i] <- a$Cq[(12*(i-1)+1) : (12*(i-1)+12)]
   }
   return(dataf)
   } 
   else if (n == 384){
+	#make the matrix for gatthering data.
     dataf <- matrix(1:384, c(24, 16))
+	#paste the data to right locations
     for (i in 1:16) {
       dataf[, i] <- a$Cq[(24*(i-1)+1) : (24*(i-1)+24)]
     } 
@@ -31,7 +35,7 @@ BioRadPCRToTable <- function(file){
     print('Non-standard result')
   }
   }
-
+# Sample code
 Cqtable <- BioRadPCRToTable('Cq.csv')
 
 
